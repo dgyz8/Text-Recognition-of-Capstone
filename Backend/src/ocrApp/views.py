@@ -25,7 +25,6 @@ from .serializers import (
     validate_image_file,
 )
 from .services import GeminiOCRService
-from .calamari_ocr_service import CalamariOCRService
 
 logger = logging.getLogger(__name__)
 
@@ -224,6 +223,7 @@ class ImageUploadAndRecogniseView(View):
             service = GeminiOCRService(api_key=user_api_key)
 
         else:
+            from .calamari_ocr_service import CalamariOCRService
             service = CalamariOCRService()
 
         tasks: list[tuple[str, bytes]] = []
