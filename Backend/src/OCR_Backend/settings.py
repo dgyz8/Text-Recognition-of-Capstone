@@ -155,6 +155,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# Local OCR flag — set to True only when running locally with calamari/kraken installed
+LOCAL_OCR = os.environ.get('LOCAL_OCR', 'False') == 'True'
+
 # Open Router API Key (loaded from .env file)
 OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY', '')
 OPENROUTER_MODEL = os.environ.get('OPENROUTER_MODEL', "google/gemini-3.1-pro-preview")  # Default to a placeholder if not set
