@@ -30,6 +30,12 @@ DEBUG = os.environ.get('DEBUG') == 'True'
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,0.0.0.0').split(',')
 
+CSRF_TRUSTED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get('CSRF_TRUSTED_ORIGINS', '').split(',')
+    if origin.strip()
+]
+
 
 # Application definition
 
@@ -47,6 +53,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",  # for CORS
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -56,9 +63,12 @@ MIDDLEWARE = [
 ]
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-]
+# Default includes both local dev and the production Netlify frontend
+_cors_origins = os.environ.get(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:5173,https://text-recognition-of-capstone.netlify.app'
+)
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in _cors_origins.split(',') if origin.strip()]
 
 CORS_ALLOW_HEADERS = [
     "accept",
