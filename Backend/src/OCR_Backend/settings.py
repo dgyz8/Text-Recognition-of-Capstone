@@ -63,7 +63,10 @@ MIDDLEWARE = [
 ]
 
 # CORS settings
-_cors_origins = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:5173')
+_cors_origins = os.environ.get(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:5173,https://text-recognition-of-capstone.netlify.app'
+)
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in _cors_origins.split(',') if origin.strip()]
 
 CORS_ALLOW_HEADERS = [
