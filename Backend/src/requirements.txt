@@ -15,6 +15,5 @@ gunicorn==21.2.0
 # Static file serving in production
 whitenoise==6.7.0
 
-# OCR - recognition
-calamari-ocr==2.3.0
-kraken==4.3.13
+# HTTP requests
+requests==2.31.0
