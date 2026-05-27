@@ -187,7 +187,12 @@ export function handleTranslate(params: {
 
     xhr.addEventListener('load', () => {
       if (xhr.status !== 200) {
-        reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
+        try {
+          const body = JSON.parse(xhr.responseText) as { error?: string };
+          reject(new Error(body.error || `HTTP ${xhr.status}: ${xhr.statusText}`));
+        } catch {
+          reject(new Error(`HTTP ${xhr.status}: ${xhr.statusText}`));
+        }
         return;
       }
       try {
