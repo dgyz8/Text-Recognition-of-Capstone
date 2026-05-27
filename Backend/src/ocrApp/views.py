@@ -224,6 +224,11 @@ class ImageUploadAndRecogniseView(View):
             service = GeminiOCRService(api_key=user_api_key)
 
         else:
+            if not settings.LOCAL_OCR:
+                return JsonResponse(
+                    {"error": "Calamari OCR is not available on this server. Please use Gemini engine."},
+                    status=400,
+                )
             service = CalamariOCRService()
 
         tasks: list[tuple[str, bytes]] = []
@@ -294,7 +299,7 @@ class ImageUploadAndRecogniseView(View):
             except Exception as e:
                 return name, {"error": str(e)}
 
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        with ThreadPoolExecutor(max_workers=3) as executor:
             futures = {
                 executor.submit(recognise_task, name, data): name 
                 for name, data in tasks
