@@ -225,7 +225,7 @@ class ImageUploadAndRecogniseView(View):
         else:
             if not settings.LOCAL_OCR:
                 return JsonResponse(
-                    {"error": "Calamari OCR is not available on this server. Please use Gemini engine."},
+                    {"error": "Our platform has limited memory. Please use the Gemini engine."},
                     status=400,
                 )
             from .calamari_ocr_service import CalamariOCRService
